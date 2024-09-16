@@ -1,0 +1,1 @@
+# An-lise_Varia-o_Pre-o_USD-BRL_USDT-BRL
