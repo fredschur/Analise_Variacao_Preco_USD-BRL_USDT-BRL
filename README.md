@@ -17,7 +17,8 @@
 5. [Discussão](#5-discussão)
 6. [Conclusões](#6-conclusões)
 7. [Documentação do Processo de Coleta e Tratamento de Dados](#7-documentação-do-processo-de-coleta-e-tratamento-de-dados)
-8. [Referências](#8-referências)
+8. [Previsão com Redes Neurais](#8-previsão-com-redes-neurais)
+9. [Referências](#9-referências)
 
 ---
 
@@ -47,19 +48,6 @@ O mercado cambial brasileiro opera em horários específicos, enquanto o mercado
   - **Descrição**: Dados horários de fechamento para o par USDT/BRL.
   - **Período**: Últimos 6 meses.
 
-**Processo de Coleta**:
-
-1. **Implementação de Mecanismos de Retry e Circuit Breaker**:
-   - Utilização da biblioteca `requests` com `Retry` e `HTTPAdapter` para lidar com falhas temporárias e persistentes nas APIs.
-   - Configuração de backoff exponencial para evitar sobrecarga das APIs.
-
-2. **Tratamento de Erros e Auditabilidade**:
-   - Uso de `try-except` para capturar exceções e registrar erros em logs.
-   - Criação de um arquivo de log (`data_collection.log`) para registrar todas as etapas e possíveis falhas durante a coleta.
-
-3. **Armazenamento dos Dados**:
-   - Os dados coletados foram armazenados em DataFrames do Pandas para facilitar o processamento e a análise.
-
 ### 3.2. Divisão de Blocos de Tempo
 
 Os dados foram segmentados nos seguintes blocos:
@@ -78,11 +66,6 @@ Os dados foram segmentados nos seguintes blocos:
 - **Finais de Semana**:
   - Blocos de 4 horas, numerados sequencialmente.
 
-**Procedimento**:
-
-- Cada registro foi associado a um bloco de tempo com base no horário e dia da semana.
-- Finais de semana foram identificados e tratados separadamente.
-
 ### 3.3. Análise Estatística
 
 1. **Cálculo da Diferença Percentual**:
@@ -99,7 +82,7 @@ Os dados foram segmentados nos seguintes blocos:
 
 ### 4.1. Diferenças Percentuais por Bloco
 
-A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USDT/BRL e USD/BRL por bloco de tempo, conforme observado nas análises.
+A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USDT/BRL e USD/BRL por bloco de tempo:
 
 | Bloco de Tempo             | Média (%) | Máximo (%) | Mínimo (%) |
 |----------------------------|-----------|------------|------------|
@@ -117,25 +100,15 @@ A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USD
 
 #### Gráfico 1: Diferença Percentual ao Longo do Tempo
 
-![](path/to/your/Screenshot-2024-09-16-154011.png)
+![Diferença Percentual ao Longo do Tempo](imgs/diff_percentual.png)
 
 *Descrição*: Gráfico de linha mostrando a variação da diferença percentual entre USDT/BRL e USD/BRL ao longo do tempo, com os blocos de tempo indicados na legenda.
 
 #### Gráfico 2: Estatísticas de Diferença Percentual por Bloco
 
-![](path/to/your/Screenshot-2024-09-16-154018.png)
+![Estatísticas por Bloco](imgs/estt_diff_bloco.png)
 
 *Descrição*: Gráfico de barras comparando a média, máximo e mínimo das diferenças percentuais por bloco.
-
-#### Tabelas de Diferenças Percentuais Extremas
-
-- **Altas Diferenças Percentuais**:
-  
-![](path/to/your/Screenshot-2024-09-16-154109.png)
-
-- **Baixas Diferenças Percentuais**:
-
-![](path/to/your/Screenshot-2024-09-16-154118.png)
 
 ### 4.3. Análise de Correlação
 
@@ -153,10 +126,6 @@ A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USD
   - Picos de diferença percentual ocorreram em datas específicas, possivelmente relacionadas a eventos macroeconômicos ou notícias impactantes no mercado de criptomoedas.
   - Exemplo: Um pico de 6.04% foi observado no Bloco 5 durante um fim de semana, coincidindo com uma queda abrupta no valor do Bitcoin.
 
-- **Implicações para Investidores**:
-  - Investidores que operam USDT/BRL devem estar cientes das maiores variações fora do horário comercial.
-  - Estratégias de arbitragem podem ser exploradas, mas devem considerar os riscos associados à volatilidade.
-
 ## 6. Conclusões
 
 - **Diferenças Significativas**:
@@ -167,10 +136,6 @@ A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USD
 
 - **Padrões de Mercado**:
   - A volatilidade é maior quando o mercado cambial brasileiro está fechado, alinhando-se com a natureza 24/7 do mercado de criptomoedas.
-
-- **Recomendações**:
-  - Monitoramento contínuo das diferenças percentuais para identificar oportunidades.
-  - Considerar fatores externos, como notícias e eventos globais, que podem afetar os preços.
 
 ## 7. Documentação do Processo de Coleta e Tratamento de Dados
 
@@ -185,75 +150,47 @@ A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USD
   - `scipy.stats`: Análises estatísticas.
   - `logging`: Registro de logs para auditabilidade.
 
-### Etapas Detalhadas
+## 8. Previsão com Redes Neurais
 
-1. **Configuração do Ambiente**:
-   - Instalação das bibliotecas necessárias via `pip`.
-   - Configuração do arquivo de log para registrar todas as operações.
+### 8.1. Objetivo da Previsão
 
-2. **Coleta de Dados**:
+Aplicar redes neurais recorrentes, especificamente modelos LSTM (Long Short-Term Memory), para prever:
 
-   - **USD/BRL**:
-     - Requisição à Alpha Vantage API utilizando a função `fetch_usd_brl_data`.
-     - Implementação de retries e backoff exponencial para lidar com limitações de taxa.
-     - Tratamento de erros com `try-except` e registro no log.
+- Os preços futuros de USD/BRL.
+- As diferenças percentuais futuras entre USDT/BRL e USD/BRL.
 
-   - **USDT/BRL**:
-     - Requisição à Binance API através da função `fetch_usdt_brl_data`.
-     - Paginação dos dados para cobrir todo o período de análise.
-     - Implementação de delays para evitar ultrapassar os limites da API.
+### 8.2. Resultados da Previsão
 
-3. **Processamento dos Dados**:
+#### Gráfico 1: Previsão da Diferença Percentual com LSTM
 
-   - **Sincronização dos DataFrames**:
-     - Conversão das datas para o mesmo formato e fusão dos DataFrames com base no timestamp.
-     - Preenchimento de valores ausentes utilizando forward fill (`ffill`).
+![Previsão Diferença Percentual](imgs/diff_percentual_lstm.png)
 
-   - **Divisão em Blocos de Tempo**:
-     - Função `assign_time_blocks` para categorizar cada registro em um bloco de tempo.
-     - Consideração de fins de semana e horários específicos.
+*Descrição*: Gráfico comparando a previsão da diferença percentual com o valor real usando um modelo LSTM. **RMSE**: 0.3022.
 
-   - **Cálculo das Diferenças Percentuais**:
-     - Cálculo realizado utilizando operações vetorizadas do Pandas para eficiência.
+#### Gráfico 2: Previsão do Preço USD/BRL com LSTM
 
-4. **Análise Estatística**:
+![Previsão USD/BRL](imgs/previsao_preco_lstm.png)
 
-   - **Estatísticas Descritivas**:
-     - Uso de `groupby` e `agg` para calcular média, máximo e mínimo por bloco.
+*Descrição*: Gráfico mostrando a previsão do preço USD/BRL usando LSTM comparado ao valor real. **RMSE**: 0.0198.
 
-   - **Análises Avançadas**:
-     - Cálculo da correlação com `pearsonr` do `scipy.stats`.
-     - Cálculo do desvio padrão e coeficiente de variação.
+### 8.3. Interpretação dos Resultados
 
-5. **Visualização dos Dados**:
+- **Desempenho dos Modelos**: 
+  - Os modelos LSTM mostraram-se capazes de capturar tendências nos dados, mas com limitações devido à volatilidade inerente dos mercados financeiros.
+  - **Diferença Percentual**: RMSE de 0.3022, indicando uma boa aproximação geral com algumas discrepâncias em picos.
+  - **USD/BRL**: RMSE de 0.0198, refletindo alta precisão.
 
-   - Criação de gráficos interativos com o Plotly, permitindo:
-     - Zoom e pan para explorar períodos específicos.
-     - Hover para visualizar detalhes dos dados.
-     - Filtragem por blocos de tempo ou períodos.
+### 8.4. Considerações Finais
 
-6. **Tratamento de Erros e Logs**:
+- As previsões LSTM são uma ferramenta valiosa para identificar tendências, mas devem ser interpretadas com cautela devido à volatilidade do mercado.
+- Recomenda-se a incorporação de variáveis econômicas externas para melhorar a robustez das previsões.
 
-   - Todos os erros são capturados e registrados com detalhes, incluindo timestamp e descrição do erro.
-   - Logs incluem informações sobre o sucesso das requisições e etapas concluídas.
-
-### Considerações sobre a Qualidade dos Dados
-
-- **Validação dos Dados**:
-  - Verificação de valores ausentes ou inconsistentes.
-  - Comparação de amostras dos dados com fontes confiáveis para garantir a precisão.
-
-- **Limitações**:
-  - Dependência da disponibilidade e precisão das APIs utilizadas.
-  - Possíveis atrasos ou indisponibilidade temporária dos serviços.
-
-## 8. Referências
+## 9. Referências
 
 1. **Alpha Vantage API Documentation**: [https://www.alphavantage.co/documentation/](https://www.alphavantage.co/documentation/)
 2. **Binance API Documentation**: [https://github.com/binance/binance-spot-api-docs](https://github.com/binance/binance-spot-api-docs)
 3. **Pandas Documentation**: [https://pandas.pydata.org/docs/](https://pandas.pydata.org/docs/)
 4. **Plotly Documentation**: [https://plotly.com/python/](https://plotly.com/python/)
+5. **TensorFlow Documentation**: [https://www.tensorflow.org/api_docs/python/tf](https://www.tensorflow.org/api_docs/python/tf)
 
----
-
-**Anexo**: O código-fonte completo utilizado para a coleta, processamento e análise dos dados está disponível no notebook anexado. Ele inclui todas as funções mencionadas, além de comentários e células explicativas para facilitar a reprodução dos resultados.
+**Observação**: A seção de previsão com redes neurais foi adicionada para enriquecer a análise, mesmo não sendo um requisito original do relatório.
