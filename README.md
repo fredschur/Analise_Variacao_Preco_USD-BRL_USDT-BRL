@@ -94,7 +94,6 @@ A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USD
 | **Bloco 5**                |    1.13   |     2.99   |   -0.89    |
 | **Bloco 6**                |    1.35   |     5.47   |   -0.98    |
 | **Bloco 1 (Fim de Semana)**|    2.23   |     5.68   |    0.94    |
-| **Bloco 5 (Fim de Semana)**|    2.34   |     6.04   |    2.34    |
 
 ### 4.2. Visualização dos Dados
 
