@@ -84,16 +84,7 @@ Os dados foram segmentados nos seguintes blocos:
 
 A tabela abaixo apresenta as estatísticas das diferenças percentuais entre USDT/BRL e USD/BRL por bloco de tempo:
 
-| Bloco de Tempo             | Média (%) | Máximo (%) | Mínimo (%) |
-|----------------------------|-----------|------------|------------|
-| **Bloco 1**                |    0.22   |     2.12   |   -0.89    |
-| **Bloco 2**                |    0.23   |     2.15   |   -1.05    |
-| **Bloco 2.1**              |    0.76   |     1.53   |   -1.15    |
-| **Bloco 3**                |    0.57   |     2.37   |   -1.25    |
-| **Bloco 4**                |    0.49   |     6.04   |   -1.53    |
-| **Bloco 5**                |    1.13   |     2.99   |   -0.89    |
-| **Bloco 6**                |    1.35   |     5.47   |   -0.98    |
-| **Bloco 1 (Fim de Semana)**|    2.23   |     5.68   |    0.94    |
+![Diferença Percentual por bloco](imgs/tabela.png)
 
 ### 4.2. Visualização dos Dados
 
